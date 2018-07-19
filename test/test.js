@@ -92,3 +92,47 @@ test('compiling android goes as expected', () => {
     expect(compileAndroidCode).toThrow('you are using the wrong JDK');
     expect(compileAndroidCode).toThrow(/JDK/);
 });
+
+/* callbacks */
+var fetchData = (callbackFunction) => {
+    callbackFunction('peanut butter');
+}
+
+test('the data is peanut butter', done => {
+    function callback(data) {
+        expect(data).toBe('peanut butter');
+        done();
+    }
+
+    fetchData(callback);
+});
+
+/* promises */
+var fetchPromise = () => {
+    return new Promise(function (resolve, reject) {
+        resolve('peanut butter');
+    });
+}
+
+test('the data is peanut butter', () => {
+    expect.assertions(1);
+    return fetchPromise().then(data => {
+        expect(data).toBe('peanut butter');
+    });
+});
+
+test('the data is peanut butter', () => {
+    expect.assertions(1);
+    return expect(fetchPromise()).resolves.toBe('peanut butter');
+});
+
+var failPromise = () => {
+    return new Promise(function (resolve, reject) {
+        reject('error');
+    });
+}
+
+test('the fetch fails with an error', () => {
+    expect.assertions(1);
+    return expect(failPromise()).rejects.toMatch('error');
+});
