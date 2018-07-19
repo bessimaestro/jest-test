@@ -20,7 +20,7 @@ test('adding positive numbers is not zero', () => {
 });
 
 /* truthiness */
-test('wheter n is null', () => {
+test('n is null', () => {
     const n = null;
     expect(n).toBeNull();
     expect(n).toBeDefined();
@@ -29,7 +29,7 @@ test('wheter n is null', () => {
     expect(n).toBeFalsy();
 });
 
-test('whether z is zero', () => {
+test('z is zero', () => {
     const z = 0;
     expect(z).not.toBeNull();
     expect(z).toBeDefined();
@@ -53,7 +53,7 @@ test('two plus two', () => {
 
 test('adding floating point numbers', () => {
     const value = 0.1 + 0.2;
-    //expect(value).toBe(0.3);           This won't work because of rounding error
+    // expect(value).toBe(0.3); // This won't work because of rounding error
     expect(value).toBeCloseTo(0.3); // This works.
 });
 
