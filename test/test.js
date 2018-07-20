@@ -1,5 +1,22 @@
 const sum = require('../sum');
 
+/* setup */
+beforeAll(() => {
+    console.log('before all do this...')
+});
+
+afterAll(() => {
+    console.log('after all do this other...')
+});
+
+beforeEach(() => {
+    console.log('setting up the environment');
+});
+
+beforeEach(() => {
+    console.log('cleaning up the environment');
+});
+
 /* common matchers */
 test('adds 1 + 2 to equal 3', () => {
     expect(sum(1, 2)).toBe(3);
@@ -110,7 +127,8 @@ test('the data is peanut butter', done => {
 /* promises */
 var fetchPromise = () => {
     return new Promise(function (resolve, reject) {
-        resolve('peanut butter');
+        // resolve('peanut butter');
+        setTimeout(resolve, 200, 'peanut butter');
     });
 }
 
@@ -135,4 +153,30 @@ var failPromise = () => {
 test('the fetch fails with an error', () => {
     expect.assertions(1);
     return expect(failPromise()).rejects.toMatch('error');
+});
+
+/* async await*/
+test('the data is peanut butter', async () => {
+    expect.assertions(1);
+    const data = await fetchPromise();
+    expect(data).toBe('peanut butter');
+});
+
+test('the fetch fails with an error', async () => {
+    expect.assertions(1);
+    try {
+        await failPromise();
+    } catch (e) {
+        expect(e).toMatch('error');
+    }
+});
+
+test('the data is peanut butter', async () => {
+    expect.assertions(1);
+    await expect(fetchPromise()).resolves.toBe('peanut butter');
+});
+
+test('the fetch fails with an error', async () => {
+    expect.assertions(1);
+    await expect(failPromise()).rejects.toMatch('error');
 });
